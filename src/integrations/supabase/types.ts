@@ -14,7 +14,102 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      tripsheets: {
+        Row: {
+          address: string | null
+          bulk_demand_number: string | null
+          buyer_name: string | null
+          buyer_name_parcel_no: string | null
+          created_at: string
+          created_by: string | null
+          destination_address: string | null
+          distance: string | null
+          driver_name_licence_no: string | null
+          id: string
+          issue_date: string | null
+          journey_start_date: string | null
+          lease_holder_code_name: string | null
+          lease_name_lease_code: string | null
+          lease_validity_ibm_mine_code: string | null
+          mineral_name_grade: string | null
+          mode_of_transport: string | null
+          net_weight_mt: number | null
+          route: string | null
+          route_destination: string | null
+          tahsil_village_syno: string | null
+          transit_pass_number: string | null
+          transit_pass_purpose: string | null
+          transporter_name: string | null
+          tripsheet_code: string
+          tripsheet_generate_datetime: string | null
+          updated_at: string
+          vehicle_number: string | null
+          weigh_bridge_name: string | null
+        }
+        Insert: {
+          address?: string | null
+          bulk_demand_number?: string | null
+          buyer_name?: string | null
+          buyer_name_parcel_no?: string | null
+          created_at?: string
+          created_by?: string | null
+          destination_address?: string | null
+          distance?: string | null
+          driver_name_licence_no?: string | null
+          id?: string
+          issue_date?: string | null
+          journey_start_date?: string | null
+          lease_holder_code_name?: string | null
+          lease_name_lease_code?: string | null
+          lease_validity_ibm_mine_code?: string | null
+          mineral_name_grade?: string | null
+          mode_of_transport?: string | null
+          net_weight_mt?: number | null
+          route?: string | null
+          route_destination?: string | null
+          tahsil_village_syno?: string | null
+          transit_pass_number?: string | null
+          transit_pass_purpose?: string | null
+          transporter_name?: string | null
+          tripsheet_code: string
+          tripsheet_generate_datetime?: string | null
+          updated_at?: string
+          vehicle_number?: string | null
+          weigh_bridge_name?: string | null
+        }
+        Update: {
+          address?: string | null
+          bulk_demand_number?: string | null
+          buyer_name?: string | null
+          buyer_name_parcel_no?: string | null
+          created_at?: string
+          created_by?: string | null
+          destination_address?: string | null
+          distance?: string | null
+          driver_name_licence_no?: string | null
+          id?: string
+          issue_date?: string | null
+          journey_start_date?: string | null
+          lease_holder_code_name?: string | null
+          lease_name_lease_code?: string | null
+          lease_validity_ibm_mine_code?: string | null
+          mineral_name_grade?: string | null
+          mode_of_transport?: string | null
+          net_weight_mt?: number | null
+          route?: string | null
+          route_destination?: string | null
+          tahsil_village_syno?: string | null
+          transit_pass_number?: string | null
+          transit_pass_purpose?: string | null
+          transporter_name?: string | null
+          tripsheet_code?: string
+          tripsheet_generate_datetime?: string | null
+          updated_at?: string
+          vehicle_number?: string | null
+          weigh_bridge_name?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
