@@ -1,26 +1,38 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
+import { useAuth } from "@/hooks/useAuth";
+import { AppHeader } from "@/components/AppHeader";
+import { SearchTripsheet } from "@/components/SearchTripsheet";
+import { AddTripsheet } from "@/components/AddTripsheet";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-export const Route = createFileRoute("/")({
-  component: Index,
-});
+export const Route = createFileRoute("/")({ component: Home });
 
-// IMPORTANT: Replace this placeholder. For sites with multiple pages (About, Services, Contact, etc.),
-// create separate route files (about.tsx, services.tsx, contact.tsx) — don't put all pages in this file.
-function PlaceholderIndex() {
+function Home() {
+  const { session, loading } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!loading && !session) navigate({ to: "/auth" });
+  }, [loading, session, navigate]);
+
+  if (loading || !session) {
+    return <div className="min-h-screen flex items-center justify-center text-muted-foreground">Loading...</div>;
+  }
+
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="min-h-screen bg-muted/20">
+      <AppHeader />
+      <main className="max-w-6xl mx-auto px-4 py-6">
+        <Tabs defaultValue="search">
+          <TabsList>
+            <TabsTrigger value="search">Search</TabsTrigger>
+            <TabsTrigger value="add">Add Data</TabsTrigger>
+          </TabsList>
+          <TabsContent value="search" className="mt-4"><SearchTripsheet /></TabsContent>
+          <TabsContent value="add" className="mt-4"><AddTripsheet /></TabsContent>
+        </Tabs>
+      </main>
     </div>
   );
-}
-
-function Index() {
-  return <PlaceholderIndex />;
 }
