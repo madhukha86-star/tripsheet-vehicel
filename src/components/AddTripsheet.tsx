@@ -12,7 +12,12 @@ type Field = { key: string; label: string; type?: string; textarea?: boolean };
 
 const FIELDS: Field[] = [
   { key: "tripsheet_code", label: "Tripsheet Code (unique)" },
+  { key: "transit_pass_number", label: "Transit Pass Number" },
+  { key: "bulk_demand_number", label: "Bulk Demand No" },
+  { key: "vehicle_number", label: "Vehicle Number" },
+  { key: "tripsheet_generate_datetime", label: "Tripsheet Generate Date & Time", type: "datetime-local" },
   { key: "lease_holder_code_name", label: "Lease Holder Code / Name" },
+  { key: "lease_name_lease_code", label: "Lease Name / Lease Code" },
   { key: "tahsil_village_syno", label: "Tahsil / Village / Sy No." },
   { key: "lease_validity_ibm_mine_code", label: "Lease Validity / IBM Mine Code" },
   { key: "transit_pass_purpose", label: "Transit Pass Purpose" },
@@ -20,9 +25,15 @@ const FIELDS: Field[] = [
   { key: "mineral_name_grade", label: "Mineral Name / Grade" },
   { key: "net_weight_mt", label: "Net Weight (MT)", type: "number" },
   { key: "buyer_name", label: "Buyer Name" },
+  { key: "buyer_name_parcel_no", label: "Buyer Name & Parcel No." },
+  { key: "address", label: "Address", textarea: true },
   { key: "destination_address", label: "Destination Address", textarea: true },
+  { key: "distance", label: "Distance" },
+  { key: "route", label: "Route" },
   { key: "route_destination", label: "Route & Destination", textarea: true },
   { key: "mode_of_transport", label: "Mode of Transportation" },
+  { key: "transporter_name", label: "Transporter Name" },
+  { key: "driver_name_licence_no", label: "Driver Name / Licence No." },
   { key: "journey_start_date", label: "Journey Start Date", type: "datetime-local" },
   { key: "weigh_bridge_name", label: "Weigh Bridge Name" },
 ];

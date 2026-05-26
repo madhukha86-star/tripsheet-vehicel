@@ -6,7 +6,9 @@ import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { toast } from "sonner";
-import { Search } from "lucide-react";
+import { Search, Download } from "lucide-react";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 type SearchBy = "tripsheet" | "transit" | "vehicle";
 
@@ -65,6 +67,57 @@ export type Tripsheet = {
   journey_start_date: string | null;
   weigh_bridge_name: string | null;
 };
+
+function downloadPdf(r: Tripsheet) {
+  const doc = new jsPDF({ unit: "pt", format: "a4" });
+  const pageW = doc.internal.pageSize.getWidth();
+  const v = (x: any) => (x ?? "").toString();
+
+  // Header band
+  doc.setFontSize(11).setFont("helvetica", "bold");
+  doc.text("Transit Pass", pageW / 2, 40, { align: "center" });
+  doc.setFontSize(9).setFont("helvetica", "normal");
+  doc.text(`Transit Pass Number : ${v(r.transit_pass_number)}`, pageW - 40, 40, { align: "right" });
+  doc.text(`Tripsheet Code : ${v(r.tripsheet_code)}    Sr.No: 00001`, pageW - 40, 54, { align: "right" });
+  doc.text("Directorate of Geology & Mining, Government of Maharashtra", 40, 54);
+
+  const rows: [string, string][] = [
+    ["Lease Holder Code/Name", v(r.lease_holder_code_name)],
+    ["Tahshil / Village /Sy No.", v(r.tahsil_village_syno)],
+    ["Lease Validity /IBM Mine Code", v(r.lease_validity_ibm_mine_code)],
+    ["Transit Pass Purpose", v(r.transit_pass_purpose)],
+    ["Issue Date", v(r.issue_date)],
+    ["Mineral Name / Grade", v(r.mineral_name_grade)],
+    ["Net Weight", v(r.net_weight_mt) + (r.net_weight_mt ? " MT" : "")],
+    ["Vehicle No", v(r.vehicle_number)],
+    ["Bulk Demand No", v(r.bulk_demand_number)],
+    ["Buyer Name", v(r.buyer_name)],
+    ["Buyer Name & Parcel No.", v(r.buyer_name_parcel_no)],
+    ["Address", v(r.address)],
+    ["Destination Address", v(r.destination_address)],
+    ["Route & Destination", v(r.route_destination)],
+    ["Route", v(r.route)],
+    ["Distance", v(r.distance)],
+    ["Mode of Transportation", v(r.mode_of_transport)],
+    ["Transporter Name", v(r.transporter_name)],
+    ["Journey Start Date", v(r.journey_start_date)],
+    ["Weigh Bridge Name", v(r.weigh_bridge_name)],
+    ["Driver Name / License No", v(r.driver_name_licence_no)],
+    ["Tripsheet Generate Date & Time", v(r.tripsheet_generate_datetime)],
+  ];
+
+  autoTable(doc, {
+    startY: 75,
+    head: [],
+    body: rows,
+    theme: "grid",
+    styles: { fontSize: 9, cellPadding: 5, textColor: 20, lineColor: 150 },
+    columnStyles: { 0: { fontStyle: "bold", cellWidth: 200, fillColor: [245, 245, 245] } },
+    margin: { left: 40, right: 40 },
+  });
+
+  doc.save(`tripsheet-${v(r.tripsheet_code) || "record"}.pdf`);
+}
 
 export function SearchTripsheet() {
   const [by, setBy] = useState<SearchBy>("tripsheet");
@@ -130,6 +183,13 @@ export function SearchTripsheet() {
 
       {searched && (
         <Card className="overflow-hidden">
+          {result && (
+            <div className="flex justify-end p-3 border-b bg-muted/30">
+              <Button size="sm" onClick={() => downloadPdf(result)}>
+                <Download className="w-4 h-4 mr-1" /> Download PDF
+              </Button>
+            </div>
+          )}
           <table className="w-full text-sm">
             <tbody>
               {FIELDS.map((f) => (
