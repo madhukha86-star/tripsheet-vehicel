@@ -9,12 +9,25 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SearchRecordRouteImport } from './routes/search-record'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AddRecordRouteImport } from './routes/add-record'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as RecordIdRouteImport } from './routes/record.$id'
 
+const SearchRecordRoute = SearchRecordRouteImport.update({
+  id: '/search-record',
+  path: '/search-record',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AddRecordRoute = AddRecordRouteImport.update({
+  id: '/add-record',
+  path: '/add-record',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -22,40 +35,77 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RecordIdRoute = RecordIdRouteImport.update({
+  id: '/record/$id',
+  path: '/record/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/add-record': typeof AddRecordRoute
   '/auth': typeof AuthRoute
+  '/search-record': typeof SearchRecordRoute
+  '/record/$id': typeof RecordIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/add-record': typeof AddRecordRoute
   '/auth': typeof AuthRoute
+  '/search-record': typeof SearchRecordRoute
+  '/record/$id': typeof RecordIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/add-record': typeof AddRecordRoute
   '/auth': typeof AuthRoute
+  '/search-record': typeof SearchRecordRoute
+  '/record/$id': typeof RecordIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth'
+  fullPaths: '/' | '/add-record' | '/auth' | '/search-record' | '/record/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth'
-  id: '__root__' | '/' | '/auth'
+  to: '/' | '/add-record' | '/auth' | '/search-record' | '/record/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/add-record'
+    | '/auth'
+    | '/search-record'
+    | '/record/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AddRecordRoute: typeof AddRecordRoute
   AuthRoute: typeof AuthRoute
+  SearchRecordRoute: typeof SearchRecordRoute
+  RecordIdRoute: typeof RecordIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/search-record': {
+      id: '/search-record'
+      path: '/search-record'
+      fullPath: '/search-record'
+      preLoaderRoute: typeof SearchRecordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth': {
       id: '/auth'
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/add-record': {
+      id: '/add-record'
+      path: '/add-record'
+      fullPath: '/add-record'
+      preLoaderRoute: typeof AddRecordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -65,12 +115,22 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/record/$id': {
+      id: '/record/$id'
+      path: '/record/$id'
+      fullPath: '/record/$id'
+      preLoaderRoute: typeof RecordIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AddRecordRoute: AddRecordRoute,
   AuthRoute: AuthRoute,
+  SearchRecordRoute: SearchRecordRoute,
+  RecordIdRoute: RecordIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
