@@ -74,14 +74,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "tripsheet-vehicle" },
+      { name: "description", content: "A web application to manage image data, allowing users to view, search, add, and download image details." },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:title", content: "tripsheet-vehicle" },
+      { property: "og:description", content: "A web application to manage image data, allowing users to view, search, add, and download image details." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "tripsheet-vehicle" },
+      { name: "twitter:description", content: "A web application to manage image data, allowing users to view, search, add, and download image details." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/f5bf6ed9-5228-4205-8545-1810c01b9fc2/id-preview-a28239b0--ee15d687-80c8-48a1-99ac-5f1c67135351.lovable.app-1779863947468.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/f5bf6ed9-5228-4205-8545-1810c01b9fc2/id-preview-a28239b0--ee15d687-80c8-48a1-99ac-5f1c67135351.lovable.app-1779863947468.png" },
     ],
     links: [
       {
