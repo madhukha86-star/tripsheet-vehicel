@@ -162,7 +162,7 @@ export async function downloadTripsheetPdf(r: Tripsheet) {
   fullRow("Transit Pass Purpose", v(r.transit_pass_purpose));
 
   splitRow("Issue Date", v(r.issue_date), "Reissue Date", v(r.issue_date));
-  splitRow("Mineral Name / Grade", v(r.mineral_name_grade), "Grade", v((r as any).grade));
+  fullRow("Mineral Name", v(r.mineral_name_grade));
   splitRow(
     "Net Weight",
     v(r.net_weight_mt) ? `${v(r.net_weight_mt)} MT (Maximum permitted)` : "",
