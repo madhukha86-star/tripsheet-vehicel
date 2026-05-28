@@ -4,14 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { toast } from "sonner";
 import { Search, Download, ExternalLink } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { downloadTripsheetPdf } from "@/lib/tripsheet-pdf";
 import { TripsheetDetails } from "@/components/TripsheetDetails";
-
-type SearchBy = "tripsheet" | "transit" | "vehicle";
 
 export type Tripsheet = {
   id: string;
@@ -40,28 +37,25 @@ export type Tripsheet = {
   driver_name_licence_no: string | null;
   journey_start_date: string | null;
   weigh_bridge_name: string | null;
+  region: string | null;
+  district: string | null;
+  issued_by: string | null;
 };
 
 export function SearchTripsheet() {
-  const [by, setBy] = useState<SearchBy>("tripsheet");
   const [code, setCode] = useState("");
   const [result, setResult] = useState<Tripsheet | null>(null);
   const [busy, setBusy] = useState(false);
   const [searched, setSearched] = useState(false);
 
-  const label =
-    by === "tripsheet" ? "Tripsheet Code" : by === "transit" ? "Transit Pass Number" : "Vehicle Number";
-
   const search = async () => {
-    if (!code.trim()) return toast.error("Please enter a value");
+    if (!code.trim()) return toast.error("Please enter Transit Pass Number");
     setBusy(true);
     setSearched(true);
-    const column =
-      by === "tripsheet" ? "tripsheet_code" : by === "transit" ? "transit_pass_number" : "vehicle_number";
     const { data, error } = await supabase
       .from("tripsheets")
       .select("*")
-      .eq(column, code.trim())
+      .eq("transit_pass_number", code.trim())
       .maybeSingle();
     setBusy(false);
     if (error) return toast.error(error.message);
@@ -77,27 +71,19 @@ export function SearchTripsheet() {
 
   return (
     <div className="space-y-4">
-      <Card className="p-5 bg-muted/40">
-        <h2 className="font-semibold mb-3">Search Data by Tripsheet / Vehicle Verification</h2>
-        <RadioGroup
-          value={by}
-          onValueChange={(v) => setBy(v as SearchBy)}
-          className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4"
-        >
-          {[
-            { v: "tripsheet", l: "Tripsheet Code / Mineral Account Slip" },
-            { v: "transit", l: "Transit Pass Number" },
-            { v: "vehicle", l: "Vehicle Number" },
-          ].map((o) => (
-            <Label key={o.v} className="flex items-start gap-2 text-sm cursor-pointer">
-              <RadioGroupItem value={o.v} className="mt-1" /> {o.l}
-            </Label>
-          ))}
-        </RadioGroup>
-        <Label htmlFor="code" className="text-sm font-semibold">{label} :</Label>
-        <Input id="code" value={code} onChange={(e) => setCode(e.target.value)} onKeyDown={(e) => e.key === "Enter" && search()} className="bg-background mt-1" />
+      <Card className="p-4 sm:p-5 bg-muted/40">
+        <h2 className="font-semibold mb-3 text-sm sm:text-base">Search by Transit Pass Number</h2>
+        <Label htmlFor="code" className="text-sm font-semibold">Transit Pass Number :</Label>
+        <Input
+          id="code"
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && search()}
+          className="bg-background mt-1"
+          placeholder="Enter Transit Pass Number"
+        />
         <div className="flex gap-2 mt-3">
-          <Button onClick={search} disabled={busy}>
+          <Button onClick={search} disabled={busy} className="flex-1 sm:flex-none">
             <Search className="w-4 h-4 mr-1" /> {busy ? "Searching..." : "Search"}
           </Button>
           <Button variant="secondary" onClick={reset}>Cancel</Button>
@@ -116,7 +102,7 @@ export function SearchTripsheet() {
               <Download className="w-4 h-4 mr-1" /> Download PDF
             </Button>
           </div>
-          <div className="p-3">
+          <div className="p-2 sm:p-3">
             <TripsheetDetails record={result} />
           </div>
         </Card>

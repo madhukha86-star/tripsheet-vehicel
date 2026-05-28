@@ -24,9 +24,12 @@ export type Database = {
           created_by: string | null
           destination_address: string | null
           distance: string | null
+          district: string | null
           driver_name_licence_no: string | null
+          grade: string | null
           id: string
           issue_date: string | null
+          issued_by: string | null
           journey_start_date: string | null
           lease_holder_code_name: string | null
           lease_name_lease_code: string | null
@@ -34,6 +37,7 @@ export type Database = {
           mineral_name_grade: string | null
           mode_of_transport: string | null
           net_weight_mt: number | null
+          region: string | null
           route: string | null
           route_destination: string | null
           tahsil_village_syno: string | null
@@ -55,9 +59,12 @@ export type Database = {
           created_by?: string | null
           destination_address?: string | null
           distance?: string | null
+          district?: string | null
           driver_name_licence_no?: string | null
+          grade?: string | null
           id?: string
           issue_date?: string | null
+          issued_by?: string | null
           journey_start_date?: string | null
           lease_holder_code_name?: string | null
           lease_name_lease_code?: string | null
@@ -65,6 +72,7 @@ export type Database = {
           mineral_name_grade?: string | null
           mode_of_transport?: string | null
           net_weight_mt?: number | null
+          region?: string | null
           route?: string | null
           route_destination?: string | null
           tahsil_village_syno?: string | null
@@ -86,9 +94,12 @@ export type Database = {
           created_by?: string | null
           destination_address?: string | null
           distance?: string | null
+          district?: string | null
           driver_name_licence_no?: string | null
+          grade?: string | null
           id?: string
           issue_date?: string | null
+          issued_by?: string | null
           journey_start_date?: string | null
           lease_holder_code_name?: string | null
           lease_name_lease_code?: string | null
@@ -96,6 +107,7 @@ export type Database = {
           mineral_name_grade?: string | null
           mode_of_transport?: string | null
           net_weight_mt?: number | null
+          region?: string | null
           route?: string | null
           route_destination?: string | null
           tahsil_village_syno?: string | null

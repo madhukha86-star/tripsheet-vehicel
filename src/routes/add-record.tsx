@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
-import { AppHeader } from "@/components/AppHeader";
+import { GovHeader } from "@/components/GovHeader";
 import { AddTripsheet } from "@/components/AddTripsheet";
 
 export const Route = createFileRoute("/add-record")({ component: AddRecord });
@@ -20,9 +20,9 @@ function AddRecord() {
 
   return (
     <div className="min-h-screen bg-muted/20">
-      <AppHeader />
-      <main className="max-w-6xl mx-auto px-4 py-6">
-        <div className="mb-4 text-sm">
+      <GovHeader />
+      <main className="max-w-6xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
+        <div className="mb-3 text-sm">
           <Link to="/search-record" className="text-primary underline">Go to Search</Link>
         </div>
         <AddTripsheet />
