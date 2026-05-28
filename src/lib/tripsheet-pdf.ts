@@ -92,8 +92,8 @@ export async function downloadTripsheetPdf(r: Tripsheet) {
   doc.text(v(r.tripsheet_generate_datetime) || v(r.issue_date), c2x + c2 / 2, y + 44, { align: "center" });
 
   doc.text(`Copy for : Driver`, c2x + 6, y + c2TopH + 14);
-  doc.text(`Region: ${v((r as any).region)}`, c2x + 6, y + c2TopH + 28);
-  doc.text(`District: ${v((r as any).district)}`, c2x + 6, y + c2TopH + 42);
+  doc.text(`Region: ${v(r.region)}`, c2x + 6, y + c2TopH + 28);
+  doc.text(`District: ${v(r.district)}`, c2x + 6, y + c2TopH + 42);
 
   // -- Col 3: transit pass number top, details + QR bottom
   const c3x = left + c1 + c2;
@@ -109,12 +109,13 @@ export async function downloadTripsheetPdf(r: Tripsheet) {
   const qrSize = 44;
   doc.setFontSize(8);
   doc.text(`Bulk Demand No : ${v(r.bulk_demand_number)}`, c3x + 6, y + c2TopH + 12);
-  doc.text(`Vehicle Type: ${v((r as any).vehicle_type) || "Lorry"}`, c3x + 6, y + c2TopH + 24);
+  doc.text(`Vehicle Type: Lorry`, c3x + 6, y + c2TopH + 24);
   doc.text(`Vehicle No : ${v(r.vehicle_number)}`, c3x + 6, y + c2TopH + 36);
-  doc.text(`Issued & Printed By: ${v((r as any).issued_by)}`, c3x + 6, y + c2TopH + 48);
+  doc.text(`Issued & Printed By: ${v(r.issued_by)}`, c3x + 6, y + c2TopH + 48);
   if (qrDataUrl) {
     doc.addImage(qrDataUrl, "PNG", c3x + c3 - qrSize - 4, y + c2TopH + 4, qrSize, qrSize);
   }
+
 
   y += headerH;
   doc.setFontSize(9);
