@@ -28,16 +28,20 @@ function formatDate(s: any): string {
   if (isNaN(d.getTime())) return String(s);
   const dd = String(d.getDate()).padStart(2, "0");
   const mm = String(d.getMonth() + 1).padStart(2, "0");
-  return `${dd}/${mm}/${d.getFullYear()}`;
+function buildQrText(r: Tripsheet) {
+  const weight = r.net_weight_mt != null && String(r.net_weight_mt) !== "" ? `${r.net_weight_mt}` : "";
+  const srWeight = [(r as any).sr_no, weight].filter(Boolean).join("|");
+  const mineralGrade = [v(r.mineral_name_grade), (r as any).grade ? `Grade ${(r as any).grade}` : ""].filter(Boolean).join("|");
+  return [
+    `${v(r.bulk_demand_number)}/${v(r.transit_pass_number)}`,
+    `${srWeight}  Metric Ton(MT)${formatDateTime(r.issue_date) ? "" : ""}`,
+    formatDateTime(r.tripsheet_generate_datetime) || formatDateTime(r.issue_date),
+    `${v(r.vehicle_number)}  ${mineralGrade}`,
+    v(r.buyer_name),
+    v(r.destination_address),
+  ].filter((l) => l && l.trim()).join("\n");
 }
 
-function buildQrText(r: Tripsheet) {
-  return [
-    `Bulk Demand No: ${v(r.bulk_demand_number)}`,
-    `Transit Pass No: ${v(r.transit_pass_number)}`,
-    `Issue Date: ${formatDate(r.issue_date)}`,
-    `Mineral Name: ${v(r.mineral_name_grade)}`,
-    `Net Weight: ${v(r.net_weight_mt)}${r.net_weight_mt ? " MT" : ""}`,
     `Vehicle No: ${v(r.vehicle_number)}`,
     `Destination Address: ${v(r.destination_address)}`,
   ].join("\n");
