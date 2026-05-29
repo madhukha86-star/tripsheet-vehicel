@@ -12,6 +12,7 @@ type Field = { key: string; label: string; type?: string; textarea?: boolean; de
 
 const FIELDS: Field[] = [
   { key: "transit_pass_number", label: "Transit Pass Number" },
+  { key: "sr_no", label: "Sr. No", defaultValue: "00001" },
   { key: "bulk_demand_number", label: "Bulk Demand No" },
   { key: "vehicle_number", label: "Vehicle Number" },
   { key: "tripsheet_generate_datetime", label: "Tripsheet Generate Date & Time", type: "datetime-local" },
@@ -24,6 +25,7 @@ const FIELDS: Field[] = [
   { key: "transit_pass_purpose", label: "Transit Pass Purpose" },
   { key: "issue_date", label: "Issue Date", type: "date" },
   { key: "mineral_name_grade", label: "Mineral Name" },
+  { key: "grade", label: "Grade" },
   { key: "net_weight_mt", label: "Net Weight (MT)", type: "number" },
   { key: "buyer_name", label: "Buyer Name" },
   { key: "destination_address", label: "Destination Address", textarea: true },

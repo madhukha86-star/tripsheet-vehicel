@@ -40,6 +40,7 @@ export type Database = {
           region: string | null
           route: string | null
           route_destination: string | null
+          sr_no: string | null
           tahsil_village_syno: string | null
           transit_pass_number: string | null
           transit_pass_purpose: string | null
@@ -75,6 +76,7 @@ export type Database = {
           region?: string | null
           route?: string | null
           route_destination?: string | null
+          sr_no?: string | null
           tahsil_village_syno?: string | null
           transit_pass_number?: string | null
           transit_pass_purpose?: string | null
@@ -110,6 +112,7 @@ export type Database = {
           region?: string | null
           route?: string | null
           route_destination?: string | null
+          sr_no?: string | null
           tahsil_village_syno?: string | null
           transit_pass_number?: string | null
           transit_pass_purpose?: string | null

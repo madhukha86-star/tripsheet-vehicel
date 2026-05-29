@@ -1,0 +1,1 @@
+ALTER TABLE public.tripsheets ADD COLUMN IF NOT EXISTS sr_no TEXT;

@@ -5,11 +5,37 @@ import dgmLogoUrl from "@/assets/dgm-logo.png";
 
 const v = (x: any) => (x == null ? "" : String(x));
 
+function formatDateTime(s: any): string {
+  if (!s) return "";
+  const str = String(s);
+  const d = new Date(str);
+  if (isNaN(d.getTime())) return str;
+  const dd = String(d.getDate()).padStart(2, "0");
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  const yyyy = d.getFullYear();
+  let h = d.getHours();
+  const min = String(d.getMinutes()).padStart(2, "0");
+  const ampm = h >= 12 ? "PM" : "AM";
+  h = h % 12; if (h === 0) h = 12;
+  // if input had no time component, show only date
+  if (/^\d{4}-\d{2}-\d{2}$/.test(str)) return `${dd}/${mm}/${yyyy}`;
+  return `${dd}/${mm}/${yyyy}  ${String(h).padStart(2, "0")}.${min} ${ampm}`;
+}
+
+function formatDate(s: any): string {
+  if (!s) return "";
+  const d = new Date(String(s));
+  if (isNaN(d.getTime())) return String(s);
+  const dd = String(d.getDate()).padStart(2, "0");
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  return `${dd}/${mm}/${d.getFullYear()}`;
+}
+
 function buildQrText(r: Tripsheet) {
   return [
     `Bulk Demand No: ${v(r.bulk_demand_number)}`,
     `Transit Pass No: ${v(r.transit_pass_number)}`,
-    `Issue Date: ${v(r.issue_date)}`,
+    `Issue Date: ${formatDate(r.issue_date)}`,
     `Mineral Name: ${v(r.mineral_name_grade)}`,
     `Net Weight: ${v(r.net_weight_mt)}${r.net_weight_mt ? " MT" : ""}`,
     `Vehicle No: ${v(r.vehicle_number)}`,
@@ -89,7 +115,7 @@ export async function downloadTripsheetPdf(r: Tripsheet) {
   doc.setFontSize(10);
   doc.text("Issue Print – 2", c2x + c2 / 2, y + 30, { align: "center" });
   doc.setFont("helvetica", "normal").setFontSize(9);
-  doc.text(v(r.tripsheet_generate_datetime) || v(r.issue_date), c2x + c2 / 2, y + 44, { align: "center" });
+  doc.text(formatDateTime(r.tripsheet_generate_datetime) || formatDate(r.issue_date), c2x + c2 / 2, y + 44, { align: "center" });
 
   doc.text(`Copy for : Driver`, c2x + 6, y + c2TopH + 14);
   doc.text(`Region: ${v(r.region)}`, c2x + 6, y + c2TopH + 28);
@@ -99,11 +125,20 @@ export async function downloadTripsheetPdf(r: Tripsheet) {
   const c3x = left + c1 + c2;
   doc.line(c3x, y + c2TopH, c3x + c3, y + c2TopH);
 
-  doc.setFont("helvetica", "bold").setFontSize(9);
-  const tpnLines = wrap(`Transit Pass Number : ${v(r.transit_pass_number)}`, c3);
-  doc.text(tpnLines, c3x + 6, y + 14);
-  doc.setFont("helvetica", "normal");
-  doc.text(`Sr.No: 00001`, c3x + c3 / 2, y + 40, { align: "center" });
+  // Transit Pass Number — render on single line, auto-shrink font to fit
+  doc.setFont("helvetica", "bold");
+  const tpnLabel = "Transit Pass Number : ";
+  const tpnValue = v(r.transit_pass_number);
+  const innerW = c3 - 12;
+  let tpnFont = 9;
+  doc.setFontSize(tpnFont);
+  while (doc.getTextWidth(tpnLabel + tpnValue) > innerW && tpnFont > 6) {
+    tpnFont -= 0.5;
+    doc.setFontSize(tpnFont);
+  }
+  doc.text(tpnLabel + tpnValue, c3x + 6, y + 16);
+  doc.setFont("helvetica", "normal").setFontSize(9);
+  doc.text(`Sr.No: ${v((r as any).sr_no) || "00001"}`, c3x + c3 / 2, y + 40, { align: "center" });
 
   // bottom of col3: text on left, QR on right
   const qrSize = 44;
@@ -161,8 +196,8 @@ export async function downloadTripsheetPdf(r: Tripsheet) {
   fullRow("Lease  Validity /IBM Mine Code", v(r.lease_validity_ibm_mine_code));
   fullRow("Transit Pass Purpose", v(r.transit_pass_purpose));
 
-  splitRow("Issue Date", v(r.issue_date), "Reissue Date", v(r.issue_date));
-  fullRow("Mineral Name", v(r.mineral_name_grade));
+  splitRow("Issue Date", formatDate(r.issue_date), "Reissue Date", formatDate(r.issue_date));
+  splitRow("Mineral Name / Grade", v(r.mineral_name_grade), "Grade", v((r as any).grade));
   splitRow(
     "Net Weight",
     v(r.net_weight_mt) ? `${v(r.net_weight_mt)} MT (Maximum permitted)` : "",
@@ -173,11 +208,10 @@ export async function downloadTripsheetPdf(r: Tripsheet) {
   fullRow("Buyer Name", v(r.buyer_name));
   fullRow("Destination Address", v(r.destination_address), 55);
 
-  // Route & Destination row: label | value | "Distance :" | distance
   splitRow("Route & Destination", v(r.route_destination) || v(r.route), "Distance :", v(r.distance));
 
   splitRow("Mode of Transportation", v(r.mode_of_transport), "Transporter Name", v(r.transporter_name));
-  fullRow("Journey Start Date", v(r.journey_start_date));
+  fullRow("Journey Start Date", formatDateTime(r.journey_start_date));
   splitRow("Weigh Bridge Name", v(r.weigh_bridge_name), "Driver Name / License No:", v(r.driver_name_licence_no));
 
   doc.save(`tripsheet-${v(r.tripsheet_code) || "record"}.pdf`);
