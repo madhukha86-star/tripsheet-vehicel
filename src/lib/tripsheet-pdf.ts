@@ -216,6 +216,3 @@ export async function downloadTripsheetPdf(r: Tripsheet) {
 
   doc.save(`tripsheet-${v(r.tripsheet_code) || "record"}.pdf`);
 }
-
-  doc.save(`tripsheet-${v(r.tripsheet_code) || "record"}.pdf`);
-}
