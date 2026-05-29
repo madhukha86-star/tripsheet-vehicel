@@ -25,6 +25,7 @@ const FIELDS: Field[] = [
   { key: "transit_pass_purpose", label: "Transit Pass Purpose" },
   { key: "issue_date", label: "Issue Date", type: "date" },
   { key: "mineral_name_grade", label: "Mineral Name" },
+  { key: "grade", label: "Grade" },
   { key: "net_weight_mt", label: "Net Weight (MT)", type: "number" },
   { key: "buyer_name", label: "Buyer Name" },
   { key: "destination_address", label: "Destination Address", textarea: true },
