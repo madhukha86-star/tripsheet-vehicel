@@ -115,7 +115,7 @@ export async function downloadTripsheetPdf(r: Tripsheet) {
   doc.setFontSize(10);
   doc.text("Issue Print – 2", c2x + c2 / 2, y + 30, { align: "center" });
   doc.setFont("helvetica", "normal").setFontSize(9);
-  doc.text(v(r.tripsheet_generate_datetime) || v(r.issue_date), c2x + c2 / 2, y + 44, { align: "center" });
+  doc.text(formatDateTime(r.tripsheet_generate_datetime) || formatDate(r.issue_date), c2x + c2 / 2, y + 44, { align: "center" });
 
   doc.text(`Copy for : Driver`, c2x + 6, y + c2TopH + 14);
   doc.text(`Region: ${v(r.region)}`, c2x + 6, y + c2TopH + 28);
@@ -125,11 +125,20 @@ export async function downloadTripsheetPdf(r: Tripsheet) {
   const c3x = left + c1 + c2;
   doc.line(c3x, y + c2TopH, c3x + c3, y + c2TopH);
 
-  doc.setFont("helvetica", "bold").setFontSize(9);
-  const tpnLines = wrap(`Transit Pass Number : ${v(r.transit_pass_number)}`, c3);
-  doc.text(tpnLines, c3x + 6, y + 14);
-  doc.setFont("helvetica", "normal");
-  doc.text(`Sr.No: 00001`, c3x + c3 / 2, y + 40, { align: "center" });
+  // Transit Pass Number — render on single line, auto-shrink font to fit
+  doc.setFont("helvetica", "bold");
+  const tpnLabel = "Transit Pass Number : ";
+  const tpnValue = v(r.transit_pass_number);
+  const innerW = c3 - 12;
+  let tpnFont = 9;
+  doc.setFontSize(tpnFont);
+  while (doc.getTextWidth(tpnLabel + tpnValue) > innerW && tpnFont > 6) {
+    tpnFont -= 0.5;
+    doc.setFontSize(tpnFont);
+  }
+  doc.text(tpnLabel + tpnValue, c3x + 6, y + 16);
+  doc.setFont("helvetica", "normal").setFontSize(9);
+  doc.text(`Sr.No: ${v((r as any).sr_no) || "00001"}`, c3x + c3 / 2, y + 40, { align: "center" });
 
   // bottom of col3: text on left, QR on right
   const qrSize = 44;
