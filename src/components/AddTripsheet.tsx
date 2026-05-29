@@ -12,6 +12,7 @@ type Field = { key: string; label: string; type?: string; textarea?: boolean; de
 
 const FIELDS: Field[] = [
   { key: "transit_pass_number", label: "Transit Pass Number" },
+  { key: "sr_no", label: "Sr. No", defaultValue: "00001" },
   { key: "bulk_demand_number", label: "Bulk Demand No" },
   { key: "vehicle_number", label: "Vehicle Number" },
   { key: "tripsheet_generate_datetime", label: "Tripsheet Generate Date & Time", type: "datetime-local" },
