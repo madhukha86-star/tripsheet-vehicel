@@ -41,7 +41,6 @@ function buildQrText(r: Tripsheet) {
     `${srWeight}  Metric Ton(MT)`,
     dt,
     `${v(r.vehicle_number)}  ${mineralGrade}`,
-    v(r.buyer_name),
     v(r.destination_address),
   ].filter((l) => l && l.trim()).join("\n");
 }

@@ -64,7 +64,12 @@ export function AddTripsheet() {
     for (const f of FIELDS) {
       const v = form[f.key]?.trim();
       if (!v) continue;
-      payload[f.key] = f.type === "number" ? Number(v) : v;
+      if (f.type === "number") payload[f.key] = Number(v);
+      else if (f.type === "datetime-local") {
+        // Treat input as local time and store as ISO with timezone
+        const d = new Date(v);
+        payload[f.key] = isNaN(d.getTime()) ? v : d.toISOString();
+      } else payload[f.key] = v;
     }
     const { error } = await supabase.from("tripsheets").insert(payload);
     setBusy(false);
