@@ -4,7 +4,6 @@ import type { Tripsheet } from "@/components/SearchTripsheet";
 import dgmLogoUrl from "@/assets/dgm-logo.png";
 
 const v = (x: any) => (x == null ? "" : String(x));
-const v = (x: any) => (x == null ? "" : String(x));
 
 function formatDateTime(s: any): string {
   if (!s) return "";
