@@ -4,12 +4,39 @@ import type { Tripsheet } from "@/components/SearchTripsheet";
 import dgmLogoUrl from "@/assets/dgm-logo.png";
 
 const v = (x: any) => (x == null ? "" : String(x));
+const v = (x: any) => (x == null ? "" : String(x));
+
+function formatDateTime(s: any): string {
+  if (!s) return "";
+  const str = String(s);
+  const d = new Date(str);
+  if (isNaN(d.getTime())) return str;
+  const dd = String(d.getDate()).padStart(2, "0");
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  const yyyy = d.getFullYear();
+  let h = d.getHours();
+  const min = String(d.getMinutes()).padStart(2, "0");
+  const ampm = h >= 12 ? "PM" : "AM";
+  h = h % 12; if (h === 0) h = 12;
+  // if input had no time component, show only date
+  if (/^\d{4}-\d{2}-\d{2}$/.test(str)) return `${dd}/${mm}/${yyyy}`;
+  return `${dd}/${mm}/${yyyy}  ${String(h).padStart(2, "0")}.${min} ${ampm}`;
+}
+
+function formatDate(s: any): string {
+  if (!s) return "";
+  const d = new Date(String(s));
+  if (isNaN(d.getTime())) return String(s);
+  const dd = String(d.getDate()).padStart(2, "0");
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  return `${dd}/${mm}/${d.getFullYear()}`;
+}
 
 function buildQrText(r: Tripsheet) {
   return [
     `Bulk Demand No: ${v(r.bulk_demand_number)}`,
     `Transit Pass No: ${v(r.transit_pass_number)}`,
-    `Issue Date: ${v(r.issue_date)}`,
+    `Issue Date: ${formatDate(r.issue_date)}`,
     `Mineral Name: ${v(r.mineral_name_grade)}`,
     `Net Weight: ${v(r.net_weight_mt)}${r.net_weight_mt ? " MT" : ""}`,
     `Vehicle No: ${v(r.vehicle_number)}`,
