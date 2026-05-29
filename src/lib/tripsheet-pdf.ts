@@ -196,8 +196,8 @@ export async function downloadTripsheetPdf(r: Tripsheet) {
   fullRow("Lease  Validity /IBM Mine Code", v(r.lease_validity_ibm_mine_code));
   fullRow("Transit Pass Purpose", v(r.transit_pass_purpose));
 
-  splitRow("Issue Date", v(r.issue_date), "Reissue Date", v(r.issue_date));
-  fullRow("Mineral Name", v(r.mineral_name_grade));
+  splitRow("Issue Date", formatDate(r.issue_date), "Reissue Date", formatDate(r.issue_date));
+  splitRow("Mineral Name / Grade", v(r.mineral_name_grade), "Grade", v((r as any).grade));
   splitRow(
     "Net Weight",
     v(r.net_weight_mt) ? `${v(r.net_weight_mt)} MT (Maximum permitted)` : "",
@@ -208,12 +208,14 @@ export async function downloadTripsheetPdf(r: Tripsheet) {
   fullRow("Buyer Name", v(r.buyer_name));
   fullRow("Destination Address", v(r.destination_address), 55);
 
-  // Route & Destination row: label | value | "Distance :" | distance
   splitRow("Route & Destination", v(r.route_destination) || v(r.route), "Distance :", v(r.distance));
 
   splitRow("Mode of Transportation", v(r.mode_of_transport), "Transporter Name", v(r.transporter_name));
-  fullRow("Journey Start Date", v(r.journey_start_date));
+  fullRow("Journey Start Date", formatDateTime(r.journey_start_date));
   splitRow("Weigh Bridge Name", v(r.weigh_bridge_name), "Driver Name / License No:", v(r.driver_name_licence_no));
+
+  doc.save(`tripsheet-${v(r.tripsheet_code) || "record"}.pdf`);
+}
 
   doc.save(`tripsheet-${v(r.tripsheet_code) || "record"}.pdf`);
 }
