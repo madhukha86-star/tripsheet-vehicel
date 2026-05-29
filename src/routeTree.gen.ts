@@ -9,12 +9,19 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SearchRecordRouteImport } from './routes/search-record'
 import { Route as RecordsRouteImport } from './routes/records'
+import { Route as SearchRecordRouteImport } from './routes/search-record'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AddRecordRouteImport } from './routes/add-record'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as RecordIdRouteImport } from './routes/record.$id'
+
+const RecordsRoute = RecordsRouteImport.update({
+  id: '/records',
+  path: '/records',
+  getParentRoute: () => rootRouteImport,
+} as any)
+
 
 const SearchRecordRoute = SearchRecordRouteImport.update({
   id: '/search-record',
