@@ -217,5 +217,10 @@ export async function downloadTripsheetPdf(r: Tripsheet) {
   fullRow("Journey Start Date", formatDateTime(r.journey_start_date));
   splitRow("Weigh Bridge Name", v(r.weigh_bridge_name), "Driver Name / License No:", v(r.driver_name_licence_no));
 
+  // Downloaded date & time below the table
+  y += 14;
+  doc.setFont("helvetica", "normal").setFontSize(8);
+  doc.text(`Downloaded: ${formatDateTime(new Date().toISOString())}`, right, y, { align: "right" });
+
   doc.save(`tripsheet-${v(r.tripsheet_code) || "record"}.pdf`);
 }
