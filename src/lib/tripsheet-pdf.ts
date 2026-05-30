@@ -220,7 +220,7 @@ export async function downloadTripsheetPdf(r: Tripsheet) {
   // Downloaded date & time below the table
   y += 30;
   doc.setFont("helvetica", "normal").setFontSize(8);
-  doc.text(`Downloaded date and time - ${formatDateTime(new Date().toISOString())}`, right, y, { align: "right" });
+  doc.text(`https://tripsheet.in/DGM_Dashboard/Dashboard_verification Downloaded date and time - ${formatDateTime(new Date().toISOString())}`, right, y, { align: "right" });
 
   doc.save(`tripsheet-${v(r.tripsheet_code) || "record"}.pdf`);
 }
