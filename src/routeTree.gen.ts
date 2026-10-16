@@ -9,26 +9,16 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SearchRecordRouteImport } from './routes/search-record'
-import { Route as RecordsRouteImport } from './routes/records'
-import { Route as AuthRouteImport } from './routes/auth'
-import { Route as AddRecordRouteImport } from './routes/add-record'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AddRecordRouteImport } from './routes/add-record'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as RecordsRouteImport } from './routes/records'
+import { Route as SearchRecordRouteImport } from './routes/search-record'
 import { Route as RecordIdRouteImport } from './routes/record.$id'
 
-const SearchRecordRoute = SearchRecordRouteImport.update({
-  id: '/search-record',
-  path: '/search-record',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RecordsRoute = RecordsRouteImport.update({
-  id: '/records',
-  path: '/records',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthRoute = AuthRouteImport.update({
-  id: '/auth',
-  path: '/auth',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AddRecordRoute = AddRecordRouteImport.update({
@@ -36,9 +26,19 @@ const AddRecordRoute = AddRecordRouteImport.update({
   path: '/add-record',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecordsRoute = RecordsRouteImport.update({
+  id: '/records',
+  path: '/records',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SearchRecordRoute = SearchRecordRouteImport.update({
+  id: '/search-record',
+  path: '/search-record',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RecordIdRoute = RecordIdRouteImport.update({
@@ -110,25 +110,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/search-record': {
-      id: '/search-record'
-      path: '/search-record'
-      fullPath: '/search-record'
-      preLoaderRoute: typeof SearchRecordRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/records': {
-      id: '/records'
-      path: '/records'
-      fullPath: '/records'
-      preLoaderRoute: typeof RecordsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/add-record': {
@@ -138,11 +124,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AddRecordRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/records': {
+      id: '/records'
+      path: '/records'
+      fullPath: '/records'
+      preLoaderRoute: typeof RecordsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/search-record': {
+      id: '/search-record'
+      path: '/search-record'
+      fullPath: '/search-record'
+      preLoaderRoute: typeof SearchRecordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/record/$id': {
